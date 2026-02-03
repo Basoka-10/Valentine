@@ -2,6 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pour toi 💖</title>
 
 <style>
@@ -14,6 +15,7 @@ body {
   align-items: center;
   height: 100vh;
   overflow: hidden;
+  touch-action: manipulation; /* Optimise le toucher sur mobile */
 }
 
 .card {
@@ -23,7 +25,8 @@ body {
   text-align: center;
   box-shadow: 0 15px 35px rgba(0,0,0,0.2);
   width: 320px;
-  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
 }
 
 h1 {
@@ -48,7 +51,7 @@ button {
   cursor: pointer;
   font-size: 16px;
   font-weight: bold;
-  transition: 0.3s;
+  transition: 0.2s;
 }
 
 .primary, .yes-btn {
@@ -66,6 +69,7 @@ button {
   color: #555;
   position: absolute;
   z-index: 999;
+  transition: 0.1s; /* Plus rapide pour s'échapper */
 }
 
 .hidden {
@@ -93,9 +97,9 @@ button {
 
   <div id="step2" class="hidden">
     <h1 id="questionText"></h1>
-    <div style="margin-top: 50px; height: 100px;">
+    <div style="margin-top: 50px; height: 100px; display: flex; justify-content: center; gap: 20px;">
       <button class="yes-btn" onclick="sayYes()">Oui 😍</button>
-      <button class="no-btn" id="noBtn" onmouseover="moveNo()">Non 😏</button>
+      <button class="no-btn" id="noBtn" onmouseover="moveNo()" ontouchstart="moveNo()">Non 😏</button>
     </div>
   </div>
 
@@ -129,13 +133,25 @@ function sayYes() {
 
 function moveNo() {
   const noBtn = document.getElementById("noBtn");
-  // On calcule des positions aléatoires sur tout l'écran
-  const x = Math.random() * (window.innerWidth - 100);
-  const y = Math.random() * (window.innerHeight - 50);
   
-  noBtn.style.left = x + "px";
-  noBtn.style.top = y + "px";
+  // Calcul de zones pour éviter que le bouton ne sorte trop de l'écran
+  const padding = 20;
+  const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+  const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+  
+  const randomX = Math.floor(Math.random() * maxX);
+  const randomY = Math.floor(Math.random() * maxY);
+  
+  noBtn.style.position = "fixed";
+  noBtn.style.left = randomX + "px";
+  noBtn.style.top = randomY + "px";
 }
+
+// Empêche le clic accidentel sur mobile
+document.getElementById("noBtn").addEventListener("click", function(e) {
+    e.preventDefault();
+    moveNo();
+});
 </script>
 
 </body>
