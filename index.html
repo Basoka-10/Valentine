@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Pour toi 💖</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: linear-gradient(135deg, #d16ba5, #ff758c);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.card {
+  background: white;
+  padding: 40px;
+  border-radius: 25px;
+  text-align: center;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+  width: 320px;
+  transition: all 0.3s ease;
+}
+
+h1 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+input {
+  padding: 12px;
+  width: 85%;
+  border-radius: 10px;
+  border: 2px solid #ff758c;
+  outline: none;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+button {
+  padding: 12px 25px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.primary, .yes-btn {
+  background-color: #ff4e78;
+  color: white;
+}
+
+.primary:hover, .yes-btn:hover {
+  background-color: #ff2e63;
+  transform: scale(1.05);
+}
+
+.no-btn {
+  background-color: #eee;
+  color: #555;
+  position: absolute;
+  z-index: 999;
+}
+
+.hidden {
+  display: none;
+}
+
+#step3 p {
+  font-size: 18px;
+  color: #ff4e78;
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+
+  <div id="step1">
+    <h1>Surprise !!! 😊</h1>
+    <p style="color: #666; margin-bottom: 20px;">J'ai un petit quelque chose pour toi...</p>
+    
+    <input type="text" id="nameInput" placeholder="Ton prénom 💕">
+    <br>
+    <button class="primary" onclick="goToStep2()">Découvrir</button>
+  </div>
+
+  <div id="step2" class="hidden">
+    <h1 id="questionText"></h1>
+    <div style="margin-top: 50px; height: 100px;">
+      <button class="yes-btn" onclick="sayYes()">Oui 😍</button>
+      <button class="no-btn" id="noBtn" onmouseover="moveNo()">Non 😏</button>
+    </div>
+  </div>
+
+  <div id="step3" class="hidden">
+    <h1>Yeeeees !!! 💖🥰</h1>
+    <p>Je savais que tu dirais oui !</p>
+    <span style="font-size: 50px;">🌹</span>
+  </div>
+
+</div>
+
+<script>
+function goToStep2() {
+  const name = document.getElementById("nameInput").value.trim();
+  if (name === "") {
+    alert("Entre un prénom 😊");
+    return;
+  }
+
+  document.getElementById("step1").classList.add("hidden");
+  document.getElementById("step2").classList.remove("hidden");
+
+  document.getElementById("questionText").innerText = 
+    name + ", veux-tu être ma Valentine ? 🥺👉👈";
+}
+
+function sayYes() {
+  document.getElementById("step2").classList.add("hidden");
+  document.getElementById("step3").classList.remove("hidden");
+}
+
+function moveNo() {
+  const noBtn = document.getElementById("noBtn");
+  // On calcule des positions aléatoires sur tout l'écran
+  const x = Math.random() * (window.innerWidth - 100);
+  const y = Math.random() * (window.innerHeight - 50);
+  
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
+}
+</script>
+
+</body>
+</html>
